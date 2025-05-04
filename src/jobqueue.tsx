@@ -135,7 +135,7 @@ const JobQueueManager = () => {
 
     const newJobs: Job[] = Array.from({ length: 5 }, (_, i) => ({
       id: i + 1,
-      name: `작업 ${i + 1}`,
+      name: `Task ${i + 1}`,
       duration: Math.floor(Math.random() * 4 + 4) * 1000, // 4-8s
       calculation: (i + 1) * (i + 1),
       status: "pending",
@@ -157,7 +157,7 @@ const JobQueueManager = () => {
             );
 
             setTimeout(() => {
-              resolve(`${job.name} 계산 결과: ${job.calculation}`);
+              resolve(`${job.name} calculation result: ${job.calculation}`);
             }, job.duration);
           }),
         () => {
@@ -199,7 +199,7 @@ const JobQueueManager = () => {
   return (
     <div className="max-w-4xl mx-auto p-6 bg-gray-50 rounded-lg shadow-lg">
       <h1 className="text-2xl font-bold mb-6 text-center text-blue-700">
-        작업 큐 관리자
+        Job Queue Manager
       </h1>
 
       <div className="mb-6 flex justify-center space-x-4">
@@ -212,7 +212,7 @@ const JobQueueManager = () => {
               : "bg-blue-600 hover:bg-blue-700 text-white"
           }`}
         >
-          시작
+          Start
         </button>
         <button
           onClick={handleReset}
@@ -223,14 +223,14 @@ const JobQueueManager = () => {
               : "bg-red-600 hover:bg-red-700 text-white"
           }`}
         >
-          리셋
+          Reset
         </button>
       </div>
 
       <div className="space-y-4">
         {jobs.length === 0 && (
           <div className="text-center text-gray-500 py-8">
-            [시작] 버튼을 누르면 5개의 작업이 생성됩니다.
+            Press the [Start] button to create 5 tasks.
           </div>
         )}
 
@@ -251,11 +251,11 @@ const JobQueueManager = () => {
               <div className="flex-1">
                 <h3 className="font-semibold text-lg">{job.name}</h3>
                 <p className="text-sm text-gray-600">
-                  예상 실행 시간: {job.duration / 1000}초
+                  Estimated execution time: {job.duration / 1000}s
                 </p>
                 <div className="mt-2">
                   <span className="text-sm font-medium">
-                    상태:{" "}
+                    Status:{" "}
                     <span
                       className={
                         job.status === "running"
@@ -268,17 +268,17 @@ const JobQueueManager = () => {
                       }
                     >
                       {job.status === "pending"
-                        ? "대기 중"
+                        ? "Waiting"
                         : job.status === "running"
-                        ? "실행 중"
+                        ? "Running"
                         : job.status === "completed"
-                        ? "완료됨"
-                        : "취소됨"}
+                        ? "Completed"
+                        : "Canceled"}
                     </span>
                   </span>
                 </div>
                 {job.result && (
-                  <div className="mt-2 font-medium">결과: {job.result}</div>
+                  <div className="mt-2 font-medium">Result: {job.result}</div>
                 )}
               </div>
               <div>
@@ -292,13 +292,13 @@ const JobQueueManager = () => {
                         : "bg-red-500 text-white hover:bg-red-600"
                     }`}
                   >
-                    {job.cancelRequested ? "취소 예약됨" : "취소"}
+                    {job.cancelRequested ? "Cancel Scheduled" : "Cancel"}
                   </button>
                 )}
                 {job.status === "running" && (
                   <div className="w-20 h-6 flex items-center justify-center">
                     <div className="animate-pulse text-blue-600">
-                      처리 중...
+                      Processing...
                     </div>
                   </div>
                 )}
