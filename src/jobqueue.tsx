@@ -110,7 +110,6 @@ class JobQueue {
   }
 }
 
-// Job 타입 정의
 interface Job {
   id: number;
   name: string;
@@ -121,28 +120,24 @@ interface Job {
   cancelRequested: boolean;
 }
 
-// 메인 컴포넌트
 const JobQueueManager = () => {
   const [jobs, setJobs] = useState<Job[]>([]);
   const canceledRef = useRef<number[]>([]);
   const [queue, setQueue] = useState<JobQueue | null>(null);
   const [isStarted, setIsStarted] = useState(false);
 
-  // 컴포넌트 마운트 시 JobQueue 초기화
   useEffect(() => {
     setQueue(new JobQueue());
   }, []);
 
-  // 작업 시작 핸들러
   const handleStart = () => {
     if (isStarted || !queue) return;
 
-    // 5개의 작업 생성
     const newJobs: Job[] = Array.from({ length: 5 }, (_, i) => ({
       id: i + 1,
       name: `작업 ${i + 1}`,
-      duration: Math.floor(Math.random() * 4 + 4) * 1000, // 4-8초 랜덤 지속 시간
-      calculation: (i + 1) * (i + 1), // 결과는 i의 제곱
+      duration: Math.floor(Math.random() * 4 + 4) * 1000, // 4-8s
+      calculation: (i + 1) * (i + 1),
       status: "pending",
       result: null,
       cancelRequested: false,
@@ -151,12 +146,10 @@ const JobQueueManager = () => {
     setJobs(newJobs);
     setIsStarted(true);
 
-    // 각 작업 큐에 추가 및 상태 업데이트
     newJobs.forEach((job) => {
       const jobPromise = queue.addJob(
         () =>
           new Promise<string>((resolve) => {
-            // 작업 시작 상태 업데이트
             setJobs((prev) =>
               prev.map((j) =>
                 j.id === job.id ? { ...j, status: "running" } : j
@@ -168,13 +161,10 @@ const JobQueueManager = () => {
             }, job.duration);
           }),
         () => {
-          // 현재 작업의 취소 상태 확인
-          console.log(canceledRef.current);
           return canceledRef.current.includes(job.id);
         }
       );
 
-      // 작업 완료 시 상태 업데이트
       jobPromise.then((result) => {
         setJobs((prev) =>
           prev.map((j) =>
@@ -191,7 +181,6 @@ const JobQueueManager = () => {
     });
   };
 
-  // 작업 취소 핸들러
   const handleCancel = (jobId: number) => {
     setJobs((prev) =>
       prev.map((job) =>
@@ -201,7 +190,6 @@ const JobQueueManager = () => {
     canceledRef.current.push(jobId);
   };
 
-  // 작업 리셋 핸들러
   const handleReset = () => {
     setJobs([]);
     setQueue(new JobQueue());
