@@ -141,7 +141,7 @@ const JobQueueManager = () => {
     const newJobs: Job[] = Array.from({ length: 5 }, (_, i) => ({
       id: i + 1,
       name: `작업 ${i + 1}`,
-      duration: Math.floor(Math.random() * 5 + 2) * 1000, // 2-6초 랜덤 지속 시간
+      duration: Math.floor(Math.random() * 4 + 4) * 1000, // 4-8초 랜덤 지속 시간
       calculation: (i + 1) * (i + 1), // 결과는 i의 제곱
       status: "pending",
       result: null,
@@ -169,6 +169,7 @@ const JobQueueManager = () => {
           }),
         () => {
           // 현재 작업의 취소 상태 확인
+          console.log(canceledRef.current);
           return canceledRef.current.includes(job.id);
         }
       );
@@ -197,6 +198,7 @@ const JobQueueManager = () => {
         job.id === jobId ? { ...job, cancelRequested: true } : job
       )
     );
+    canceledRef.current.push(jobId);
   };
 
   // 작업 리셋 핸들러
