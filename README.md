@@ -4,6 +4,8 @@
 
 In this challenge, you will implement a sequential promise queue system that ensures promises are executed one after another rather than concurrently. You will create a job management system that can add, execute, and cancel jobs in a controlled manner.
 
+![Architecture](doc/arch.png)
+
 ## Example
 
 ![Example](doc/example.gif)
