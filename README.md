@@ -23,10 +23,12 @@ In this challenge, you will implement a sequential promise queue system that ens
 - Cancellation of one job should not affect the execution of other jobs
 - The system should handle cancellation gracefully without breaking the job chain
 
-### 3. Status Tracking (Optional)
+### 3. Failed Job Recovery System
 
-- Track the status of each job (pending, completed, or canceled)
-- Provide a way to query a job's current status
+- Implement a secondary queue system (Dead Letter Queue) to handle failed jobs
+- When a job in the main sequential queue fails, it should be moved to this recovery queue
+- The recovery queue should process failed jobs with configurable retry, delay options
+- Failed jobs should be processed independently from the main job queue
 
 ## Functional Requirements
 
@@ -35,19 +37,12 @@ In this challenge, you will implement a sequential promise queue system that ens
 - Job Results: Each job should return a result that callers can access
 - Cancel Jobs: Support cancellation of specific jobs before they begin execution
 - Error Handling: Properly handle and propagate errors from failed jobs
-- Query Job Status: Allow querying the status of a job (optional)
-
-## Testing Requirements
-
-- Create a test script that demonstrates:
-  - Adding multiple jobs with different execution times
-  - Showing that jobs execute in sequence regardless of their duration
-  - Cancelling specific jobs and verifying they don't execute
-  - Confirming that the job queue continues processing after cancellations
-  - Querying the status of jobs (optional)
+- Failed Job Recovery: Move failed jobs to a recovery queue with retry capabilities
+- Retry Configuration: Support configurable retry parameters (delay, max attempts, priority)
+- Recovery Workers: Implement a worker pool for parallel processing of recovery jobs
 
 ## Constraints
 
 - Complete the challenge within 1 hour
-- No external libraries for promise management (only vanilla JS/TS)
+- No external libraries for promise management
 - Focus on functionality rather than UI implementation
