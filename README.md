@@ -6,7 +6,7 @@ In this challenge, you will implement a sequential promise queue system that ens
 
 ## Example
 
-<video src="doc/example.webm" width="100%" controls></video>
+![Example](doc/example.gif)
 
 ## Core Requirements
 
