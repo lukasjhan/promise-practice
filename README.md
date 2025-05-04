@@ -1,54 +1,49 @@
-# React + TypeScript + Vite
+# Job Queue Test [Interview Exercise]
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
 
-Currently, two official plugins are available:
+In this challenge, you will implement a sequential promise queue system that ensures promises are executed one after another rather than concurrently. You will create a job management system that can add, execute, and cancel jobs in a controlled manner.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Core Requirements
 
-## Expanding the ESLint configuration
+### 1. Sequential Job Execution
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Design a system that executes asynchronous jobs one after another, not concurrently
+- Each job should only begin after the previous job has completed
+- Jobs may take varying amounts of time to complete
+- The system should return results from each job via promises
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+### 2. Job Cancellation Mechanism
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- Implement functionality to cancel jobs that haven't started execution yet
+- Cancellation of one job should not affect the execution of other jobs
+- The system should handle cancellation gracefully without breaking the job chain
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### 3. Status Tracking (Optional)
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+- Track the status of each job (pending, completed, or canceled)
+- Provide a way to query a job's current status
+
+## Functional Requirements
+
+- Add Jobs: Allow adding new jobs to the queue at any time
+- Job Execution Control: Execute jobs in the exact order they were added
+- Job Results: Each job should return a result that callers can access
+- Cancel Jobs: Support cancellation of specific jobs before they begin execution
+- Error Handling: Properly handle and propagate errors from failed jobs
+- Query Job Status: Allow querying the status of a job (optional)
+
+## Testing Requirements
+
+- Create a test script that demonstrates:
+  - Adding multiple jobs with different execution times
+  - Showing that jobs execute in sequence regardless of their duration
+  - Cancelling specific jobs and verifying they don't execute
+  - Confirming that the job queue continues processing after cancellations
+  - Querying the status of jobs (optional)
+
+## Constraints
+
+- Complete the challenge within 1 hour
+- No external libraries for promise management (only vanilla JS/TS)
+- Focus on functionality rather than UI implementation
