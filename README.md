@@ -6,10 +6,6 @@ In this challenge, you will implement a sequential promise queue system that ens
 
 ![Architecture](doc/arch.png)
 
-## Example
-
-![Example](doc/example.gif)
-
 ## Core Requirements
 
 ### 1. Sequential Job Execution
